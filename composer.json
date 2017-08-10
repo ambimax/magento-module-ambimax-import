@@ -1,0 +1,18 @@
+{
+  "name": "ambimax/magento-module-ambimax-import",
+  "type": "magento-module",
+  "description": "Module to extend ho_import module for Magento 1",
+  "homepage": "https://www.ambimax.de",
+  "require": {
+    "php": ">=5.6",
+    "magento-hackathon/magento-composer-installer": "3.*",
+    "aws/aws-sdk-php": "3.*",
+    "ajbonner/magento-composer-autoload": "0.1.*"
+  },
+  "authors":[
+    {
+      "name": "Tobias Schifftner",
+      "email": "ts@ambimax.de"
+    }
+  ]
+}

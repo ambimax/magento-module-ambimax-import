@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Ambimax_Import>
+			<active>true</active>
+			<codePool>community</codePool>
+			<depends>
+				<Ho_Import/>
+				<Mage_ImportExport/>
+			</depends>
+		</Ambimax_Import>
+	</modules>
+</config>

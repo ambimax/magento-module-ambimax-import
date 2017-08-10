@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ambimax_Import>
+            <version>1.0.0</version>
+        </Ambimax_Import>
+    </modules>
+
+    <global>
+        <models>
+            <ambimax_import>
+                <class>Ambimax_Import_Model</class>
+            </ambimax_import>
+        </models>
+
+        <helpers>
+            <ambimax_import>
+                <class>Ambimax_Import_Helper</class>
+            </ambimax_import>
+        </helpers>
+    </global>
+</config>
