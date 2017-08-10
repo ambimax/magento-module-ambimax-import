@@ -1,0 +1,9 @@
+---
+
+ho_import_profile:
+  downloader:
+    file: products.csv
+    bucket: foobar
+    profile:
+      profile: default
+      region: eu-central-1
