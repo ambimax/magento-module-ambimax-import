@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <ambimax_import translate="label" module="ambimax_import">
+            <class>separator-top</class>
+            <label>ambimax® Import</label>
+            <tab>service</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>45</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>0</show_in_website>
+            <show_in_store>0</show_in_store>
+            <groups>
+                <general>
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <aws_default_region translate="label">
+                            <label>Default Region</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>ambimax_import/source_regions_s3</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </aws_default_region>
+                        <aws_use_credentials_file translate="label">
+                            <label>Use Credentials File</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Uses local ~/.aws/credentials file for login</comment>
+                        </aws_use_credentials_file>
+                        <aws_access_key_id translate="label">
+                            <label>AWS Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <aws_use_credentials_file>0</aws_use_credentials_file>
+                            </depends>
+                        </aws_access_key_id>
+                        <aws_secret_access_key translate="label">
+                            <label>AWS Key</label>
+                            <frontend_type>password</frontend_type>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <aws_use_credentials_file>0</aws_use_credentials_file>
+                            </depends>
+                        </aws_secret_access_key>
+                    </fields>
+                </general>
+            </groups>
+        </ambimax_import>
+    </sections>
+</config>

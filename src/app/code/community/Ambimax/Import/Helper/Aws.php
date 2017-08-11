@@ -25,6 +25,9 @@ class Ambimax_Import_Helper_Aws extends Mage_Core_Helper_Abstract
         if ( !isset($this->_client[$profile->getProfile()]) ) {
 
             $profile->setVersion(self::AWS_API_VERSION);
+            if ( !$profile->hasData('region') ) {
+                $profile->setData('region', $this->getDefaultRegion());
+            }
             $this->_client[$profile->getProfile()] = new S3Client($profile->toArray());
         }
 
@@ -39,5 +42,15 @@ class Ambimax_Import_Helper_Aws extends Mage_Core_Helper_Abstract
     {
         $this->_client[$profile] = $client;
         return $this;
+    }
+
+    /**
+     * Returns default region from backend
+     *
+     * @return string
+     */
+    public function getDefaultRegion()
+    {
+        return Mage::getStoreConfig('ambimax_import/general/aws_default_region');
     }
 }
