@@ -7,16 +7,45 @@
     </modules>
 
     <global>
-        <models>
-            <ambimax_import>
-                <class>Ambimax_Import_Model</class>
-            </ambimax_import>
-        </models>
-
         <helpers>
             <ambimax_import>
                 <class>Ambimax_Import_Helper</class>
             </ambimax_import>
         </helpers>
+
+        <models>
+            <ambimax_import>
+                <class>Ambimax_Import_Model</class>
+            </ambimax_import>
+        </models>
     </global>
+
+    <adminhtml>
+        <translate>
+            <modules>
+                <ambimax_import>
+                    <files>
+                        <default>Ambimax_Import.csv</default>
+                    </files>
+                </ambimax_import>
+            </modules>
+        </translate>
+    </adminhtml>
+
+    <default>
+        <ambimax_import>
+            <general>
+                <aws_use_credentials_file>1</aws_use_credentials_file>
+                <aws_default_region>eu-central-1</aws_default_region>
+            </general>
+        </ambimax_import>
+    </default>
+
+    <phpunit>
+        <suite>
+            <modules>
+                <Ambimax_Import/>
+            </modules>
+        </suite>
+    </phpunit>
 </config>
