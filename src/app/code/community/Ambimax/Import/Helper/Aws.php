@@ -8,11 +8,6 @@ class Ambimax_Import_Helper_Aws extends Mage_Core_Helper_Abstract
 
     const AWS_API_VERSION = '2006-03-01';
 
-    public function getProfile($line, $profile)
-    {
-        print_r($profile);
-    }
-
     /**
      * @param string|array|Varien_Object $profile
      * @return Aws\S3\S3Client mixed
@@ -34,5 +29,15 @@ class Ambimax_Import_Helper_Aws extends Mage_Core_Helper_Abstract
         }
 
         return $this->_client[$profile->getProfile()];
+    }
+
+    /**
+     * @param $client
+     * @return $this
+     */
+    public function setClient($profile, S3Client $client)
+    {
+        $this->_client[$profile] = $client;
+        return $this;
     }
 }
