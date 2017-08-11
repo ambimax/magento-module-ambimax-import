@@ -31,20 +31,20 @@ local file does not exist or is older than the file in the bucket.
 
 ```XML
 <image helper="ambimax_import/aws_s3::getFile">
-    <basePath value="Category/Images"/>
-    <path field="image_path"/>
-    <bucket>bucket-name</bucket>
     <profile>
         <profile>default</profile>
         <region>eu-central-1</region> <!-- optional when default region is set in backend -->
     </profile>
+    <bucket>bucket-name</bucket>
+    <basePath value="Category/Images"/>
+    <path field="image_path"/>   
     <force>1</force> <!-- optional: Forces download of file -->
 </image>
 <thumbnail helper="ambimax_import/aws_s3::getFile">
+    <profile>default</profile>
+    <bucket>bucket-name</bucket>
     <basePath value="Category/Thumbnails"/>
     <path field="thumbnail_image_path"/>
-    <bucket>bucket-name</bucket>
-    <profile>default</profile>
 </thumbnail>
 ```
  

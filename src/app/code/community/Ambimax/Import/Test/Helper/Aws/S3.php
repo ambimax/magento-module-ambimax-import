@@ -67,10 +67,10 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
         $helper = Mage::helper('ambimax_import/aws_s3');
         $helper->getFile(
             $line = array(),
+            $profile = 'default',
+            $bucket = 'foobar',
             $basePath = 'Subfolder',
             $path = 'Picture1.jpg',
-            $bucket = 'foobar',
-            $profile = 'default',
             $force = false
         );
     }
@@ -122,10 +122,10 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
         $helper = Mage::helper('ambimax_import/aws_s3');
         $helper->getFile(
             $line = array(),
+            $profile = 'default',
+            $bucket = 'foobar',
             $basePath = 'Subfolder',
             $path = 'testGetExistingFile.test.csv',
-            $bucket = 'foobar',
-            $profile = 'default',
             $force = false
         );
 
@@ -168,10 +168,10 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
         $helper = Mage::helper('ambimax_import/aws_s3');
         $helper->getFile(
             $line = array(),
+            $profile = 'default',
+            $bucket = 'foobar',
             $basePath = 'Subfolder',
             $path = 'testGetOlderFileAndKeepExistingFile.test.csv',
-            $bucket = 'foobar',
-            $profile = 'default',
             $force = false
         );
 
@@ -207,4 +207,49 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
 
         return new Result($result);
     }
+
+    /**
+     * Should return an array with images
+     *
+     * @dataProvider dataProvider
+     */
+    public function testGetDirectoryListing($listObjectParams, $paginationResultValue)
+    {
+        $client = $this->getMockBuilder('Aws\S3\S3Client')
+            ->disableOriginalConstructor()
+            ->setMethods(['getPaginator'])
+            ->getMock();
+
+        /** @var Ambimax_Import_Helper_Aws $awsHelper */
+        $awsHelper = Mage::helper('ambimax_import/aws');
+        $awsHelper->setClient('default', $client);
+
+        $paginationResult = $this->getMockBuilder('\Aws\ResultPaginator')
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->setMethods(['get'])
+            ->getMock();
+
+        $paginationResult->expects($this->once())
+            ->method('get')
+            ->with('Contents')
+            ->will($this->returnValue($paginationResultValue));
+
+        $client
+            ->expects($this->once())
+            ->method('getPaginator')
+            ->with('ListObjects', $listObjectParams)
+            ->will($this->returnValue([$paginationResult]));
+
+        /** @var Ambimax_Import_Helper_Aws_S3 $helper */
+        $helper = Mage::helper('ambimax_import/aws_s3');
+
+        $ls = $helper->getDirectoryListing('foobar', 'default', '/');
+
+        $this->assertEquals(3, count($ls));
+        $this->assertArrayHasKey('item.jpg', $ls);
+        $this->assertArrayHasKey('item2.jpg', $ls);
+        $this->assertArrayHasKey('item3.jpg', $ls);
+    }
+
 }
