@@ -46,7 +46,7 @@ class Ambimax_Import_Helper_Aws_S3 extends Ho_Import_Helper_Import
             /** @var Aws\Result $result */
             $result = $fileExists ? $client->getObject(array('Bucket' => $bucket, 'Key' => $bucketPath)) : null;
             if ( !$fileExists || !$fileSize || $result->get('LastModified') > $fileTime ) {
-                $saveRes = $client->getObject(array('Bucket' => $bucket, 'Key' => $bucketPath, 'SaveAs' => $savePath));
+                $client->getObject(array('Bucket' => $bucket, 'Key' => $bucketPath, 'SaveAs' => $savePath));
                 $this->getHelper()->getHoImportLog()->log(
                     $this->getHelper()->__(
                         "Downloading file %s from s3://%s, to %s",
@@ -64,19 +64,6 @@ class Ambimax_Import_Helper_Aws_S3 extends Ho_Import_Helper_Import
                 Zend_Log::ERR
             );
         }
-
-        Mage::log(
-            [
-                'file' => $savePath,
-                'fileExists' => $fileExists ? 1 : 0,
-                'fileSize' => $fileSize,
-                'fileTime' => $fileTime->format('d.m.Y H:i:s'),
-                'result' => $result,
-                'saveResult' => isset($saveRes) ? $saveRes : null,
-            ],
-            Zend_Log::DEBUG,
-            's3.log'
-        );
 
         return is_file($savePath) ? $localPath : '';
     }
