@@ -70,10 +70,10 @@ class Ambimax_Import_Helper_Aws_S3 extends Ho_Import_Helper_Import
         }
 
         if ( empty($pattern) ) {
-            $pattern = '/\/(__NAME__)(\.(jpg|jpeg|png)$|[\_-].*\.(jpg|jpeg|png)$)/i';
+            $pattern = '/\/(__NAME__)(\.(jpg|jpeg|png)$|[\_].*\.(jpg|jpeg|png)$)/i';
         }
 
-        $pattern = str_replace('__NAME__', $name, $pattern);
+        $pattern = str_replace('__NAME__', (string) $name, $pattern);
 
         $ls = $this->getDirectoryListing($bucket, $profile, $prefix);
 
@@ -84,14 +84,14 @@ class Ambimax_Import_Helper_Aws_S3 extends Ho_Import_Helper_Import
         }
 
         if ( count($matches) > 1 ) {
-            sort($matches);
+            sort($matches, SORT_NATURAL);
         }
 
         $i = 0;
         $images = array();
         foreach ($matches as $bucketPath) {
             $info = $ls[$bucketPath];
-            $savePath = Mage::getBaseDir('media') . DS . 'import' . $bucketPath;
+            $savePath = Mage::getBaseDir('media').DS.'import'.DS.$bucketPath;
 
             $this->downloadFile(
                 $profile,
@@ -106,7 +106,7 @@ class Ambimax_Import_Helper_Aws_S3 extends Ho_Import_Helper_Import
                 continue;
             }
 
-            $images[] = $bucketPath;
+            $images[] = DS.$bucketPath;
 
             if ( $limit && ++$i >= (int)$limit ) {
                 break;
@@ -182,8 +182,10 @@ class Ambimax_Import_Helper_Aws_S3 extends Ho_Import_Helper_Import
     public function findImagesByNameWithFallbackName($line, $profile, $bucket, $prefix, $name, $fallbackName,
                                                      $force = false, $limit = false, $pattern = '')
     {
-        $name = (string)$this->_getMapper()->mapItem($name);
-        $fallbackName = (string)$this->_getMapper()->mapItem($fallbackName);
+        $name = $this->_getMapper()->mapItem($name) ? $this->_getMapper()->mapItem($name) : $name;
+        $fallbackName = $this->_getMapper()->mapItem($fallbackName)
+            ? $this->_getMapper()->mapItem($fallbackName)
+            : $fallbackName;
 
         $images = $this->findImagesByName($line, $profile, $bucket, $prefix, $name, $force, $limit, $pattern);
 
