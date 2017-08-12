@@ -6,9 +6,8 @@ Extends functionality of [Ho_Import](https://github.com/ho-nl/magento1-Ho_Import
 **// This project is under heavy development and not production ready! //**
 
 ## Additional Downloaders
- - s3
 
-#### AWS S3 Example
+#### AWS S3 Downloader
 ```XML
 <downloader model="ambimax_import/downloader_s3">
     <profile>
@@ -22,10 +21,8 @@ Extends functionality of [Ho_Import](https://github.com/ho-nl/magento1-Ho_Import
 ```
 
 ## Additional Helpers
-
- - ambimax_import/aws_s3::getFile
  
-#### S3 Get File
+#### getFile (from S3 Bucket)
 Combines basePath and path to bucket url (s3://bucket/basePath/path) and downloads file when 
 local file does not exist or is older than the file in the bucket.
 
@@ -48,6 +45,56 @@ local file does not exist or is older than the file in the bucket.
 </thumbnail>
 ```
  
+#### findImagesByName (in S3 Bucket)
+Find images on s3 bucket by name.
+
+Default RegExp (__NAME__` will be replaced by input):
+```REGEXP
+/\/(__NAME__)(\.(jpg|jpeg|png)$|[\_].*\.(jpg|jpeg|png)$)/i
+```
+
+This pattern will find the following images when input is `2844`. The result will be returned in natural order:
+
+ - 2844.jpg
+ - 2844_1.jpg
+ - 2844_2.jpg
+ - 2844_12.jpg
+ - 2844_20.jpg
+ - 2844_anything.jpg
+
+```XML
+<_media_image helper="ambimax_import/aws_s3::findImagesByName">
+    <profile>default</profile>
+    <bucket>delphin-storage</bucket>
+    <prefix value="Teich/Bilder" />
+    <name field="sku"/>
+    <force>1</force> <!-- optional: Forces download of file -->
+    <limit>false</limit> <!-- optional -->
+    <pattern></pattern> <!-- optional -->
+</_media_image>
+```
+
+#### findImagesByNameWithFallbackName (in S3 Bucket)
+
+Find images on s3 bucket by name or a second name when first name has no results.
+
+Default RegExp is the same as `findImagesByName` function
+
+```XML
+<_media_image helper="ambimax_import/aws_s3::findImagesByNameWithFallbackName">
+    <profile>default</profile>
+    <bucket>delphin-storage</bucket>
+    <prefix value="Teich/Bilder" />
+    <name field="sku"/>
+    <fallbackName helper="my_module/import::getChildSku">
+        <name field="sku" />
+    </fallbackName>
+    <force>1</force> <!-- optional: Forces download of file -->
+    <limit>false</limit> <!-- optional -->
+    <pattern></pattern> <!-- optional -->
+</_media_image>
+```
+
 
 ## Author Information
 
