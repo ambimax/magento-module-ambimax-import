@@ -7,9 +7,16 @@
     "php": ">=5.6",
     "magento-hackathon/magento-composer-installer": "3.*",
     "aws/aws-sdk-php": "3.*",
-    "ajbonner/magento-composer-autoload": "0.1.*"
+    "ajbonner/magento-composer-autoload": "0.1.*",
+    "ho-nl/ho_import": "1.7.*"
   },
-  "authors":[
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.firegento.com"
+    }
+  ],
+  "authors": [
     {
       "name": "Tobias Schifftner",
       "email": "ts@ambimax.de"
