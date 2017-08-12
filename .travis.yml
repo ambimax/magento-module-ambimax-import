@@ -13,4 +13,4 @@ env:
     - MAGENTO_VERSION=magento-mirror-1.9.3.4
 
 script:
-  - url --retry 2 --retry-delay 5 -f -sSL https://raw.githubusercontent.com/AOEpeople/MageTestStand/master/setup.sh | bash
+  - curl -sSL https://raw.githubusercontent.com/AOEpeople/MageTestStand/plain_phpunit/setup.sh | bash
