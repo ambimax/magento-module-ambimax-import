@@ -48,7 +48,7 @@ local file does not exist or is older than the file in the bucket.
 #### findImagesByName (in S3 Bucket)
 Find images on s3 bucket by name.
 
-Default RegExp (__NAME__` will be replaced by input):
+Default RegExp (string `__NAME__` will be replaced by input):
 ```REGEXP
 /\/(__NAME__)(\.(jpg|jpeg|png)$|[\_].*\.(jpg|jpeg|png)$)/i
 ```
