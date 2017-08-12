@@ -1,0 +1,53 @@
+---
+
+- name: 2843G
+  expectedItems:
+    - /.TEST/Bilder/2843G.jpg
+
+- name: 2843
+  expectedItems:
+    - /.TEST/Bilder/2843.jpg
+
+- name: 0000
+  expectedItems: []
+
+- name: 2844
+  expectedItems:
+    - /.TEST/Bilder/2844.jpg
+
+- name: 3455G
+  expectedItems:
+    - /.TEST/Bilder/3455G.jpg
+    - /.TEST/Bilder/3455G_1.jpg
+    - /.TEST/Bilder/3455G_2.jpg
+    - /.TEST/Bilder/3455G_12.jpg
+    - /.TEST/Bilder/3455G_20.jpg
+    - /.TEST/Bilder/3455G_anything.jpg
+
+- name: 3455G
+  expectedItems:
+    - /.TEST/Bilder/3455G.jpg
+    - /.TEST/Bilder/3455G_1.jpg
+    - /.TEST/Bilder/3455G_2.jpg
+    - /.TEST/Bilder/3455G_12.jpg
+  limit: 4
+
+- name: aqua
+  expectedItems:
+    - /.TEST/Bilder/aqua.jpg
+    - /.TEST/Bilder/aqua_1.jpg
+    - /.TEST/Bilder/aqua_2.jpg
+
+- name: aqua
+  expectedItems:
+    - /.TEST/Bilder/aqua.jpg
+  limit: 1
+
+- name: _underline
+  expectedItems:
+    - /.TEST/Bilder/_underline.jpg
+
+- name: -3443
+  expectedItems:
+    - /.TEST/Bilder/-3443.jpg
+

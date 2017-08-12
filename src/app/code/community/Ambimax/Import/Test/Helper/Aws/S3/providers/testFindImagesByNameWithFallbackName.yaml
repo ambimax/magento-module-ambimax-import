@@ -1,0 +1,39 @@
+---
+
+- name: 2843G
+  fallback: 2843
+  expectedItems:
+    - /.TEST/Bilder/2843G.jpg
+
+- name: 2843
+  fallback: 2843
+  expectedItems:
+    - /.TEST/Bilder/2843.jpg
+
+- name: 0000
+  fallback: 0000
+  expectedItems: []
+
+- name: aquaG
+  fallback: aqua
+  expectedItems:
+    - /.TEST/Bilder/aqua.jpg
+    - /.TEST/Bilder/aqua_1.jpg
+    - /.TEST/Bilder/aqua_2.jpg
+
+- name: aquaG
+  fallback: aqua
+  expectedItems:
+    - /.TEST/Bilder/aqua.jpg
+    - /.TEST/Bilder/aqua_1.jpg
+  limit: 2
+
+- name: _underlineG
+  fallback: _underline
+  expectedItems:
+    - /.TEST/Bilder/_underline.jpg
+
+- name: -3443
+  fallback: nonesense
+  expectedItems:
+    - /.TEST/Bilder/-3443.jpg

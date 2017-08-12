@@ -6,6 +6,14 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
 {
     protected $_testFiles = [];
 
+    public function setUp()
+    {
+        // Create files - otherwise these files are not returned from getImagesByName*
+        foreach ($this->getPaginationResultValue() as $line) {
+            $this->createTestfile('{{media_dir}}/import/' . $line['Key'], 'origin');
+        }
+    }
+
     public function tearDown()
     {
         $io = new Varien_Io_File();
@@ -24,13 +32,13 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
 
         $file = str_replace(array_keys($replace), $replace, $filepath);
         $io = new Varien_Io_File();
-        $io->open(array('path' => dirname($file))); // @codingStandardsIgnoreLine
         $io->checkAndCreateFolder(dirname($file));  // @codingStandardsIgnoreLine
+        $io->open(array('path' => dirname($file))); // @codingStandardsIgnoreLine
         $io->filePutContent($file, $content);
         $this->_testFiles[$file] = $content;
     }
 
-    public function testHelper()
+    public function testCorrectHelperInstance()
     {
         /** @var Ambimax_Import_Helper_Aws_S3 $helper */
         $helper = Mage::helper('ambimax_import/aws_s3');
@@ -211,6 +219,7 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
     /**
      * Should return an array with images
      *
+     * @loadFixture ~Ambimax_Import/reset.yaml
      * @dataProvider dataProvider
      */
     public function testGetDirectoryListing($listObjectParams, $paginationResultValue)
@@ -250,6 +259,153 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
         $this->assertArrayHasKey('item.jpg', $ls);
         $this->assertArrayHasKey('item2.jpg', $ls);
         $this->assertArrayHasKey('item3.jpg', $ls);
+    }
+
+    /**
+     * Checks if returned items are as expected
+     *
+     * @dataProvider dataProvider
+     * @loadFixture ~Ambimax_Import/reset.yaml
+     *
+     * @param $name
+     * @param array $expectedItems
+     * @param bool $limit
+     */
+    public function testFindImagesByName($name, $expectedItems = [], $limit = false)
+    {
+        $client = $this->getMockBuilder('Aws\S3\S3Client')
+            ->disableOriginalConstructor()
+            ->setMethods(['getPaginator', 'GetObject'])
+            ->getMock();
+
+        /** @var Ambimax_Import_Helper_Aws $awsHelper */
+        $awsHelper = Mage::helper('ambimax_import/aws');
+        $awsHelper->setClient('default', $client);
+
+        $paginationResult = $this->getMockBuilder('\Aws\ResultPaginator')
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->setMethods(['get'])
+            ->getMock();
+
+        $paginationResult
+            ->expects($this->once())
+            ->method('get')
+            ->with('Contents')
+            ->will($this->returnValue($this->getPaginationResultValue()));
+
+        $client
+            ->expects($this->once())
+            ->method('getPaginator')
+            ->with('ListObjects', ['Bucket' => 'foobar', 'Prefix' => '/.TEST/Bilder'])
+            ->will($this->returnValue([$paginationResult]));
+
+        $client
+            ->expects($this->never())
+            ->method('GetObject');
+
+        /** @var Ambimax_Import_Helper_Aws_S3 $helper */
+        $helper = Mage::helper('ambimax_import/aws_s3');
+
+        $images = $helper->findImagesByName(
+            $line = array(),
+            $profile = 'default',
+            $bucket = 'foobar',
+            $prefix = '/.TEST/Bilder',
+            $name,
+            $force = false,
+            $limit,
+            $pattern = ''
+        );
+
+        $this->assertEquals(count($expectedItems), count($images));
+        $this->assertEquals($expectedItems, $images);
+    }
+
+    /**
+     * Checks if returned items are as expected
+     *
+     * @covers Ambimax_Import_Helper_Aws_S3::downloadFile
+     * @dataProvider dataProvider
+     * @loadFixture ~Ambimax_Import/reset.yaml
+     * @param $name
+     * @param $fallbackName
+     * @param array $expectedItems
+     * @param bool $limit
+     */
+    public function testFindImagesByNameWithFallbackName($name, $fallbackName, $expectedItems = [],
+                                                         $limit = false)
+    {
+        $client = $this->getMockBuilder('Aws\S3\S3Client')
+            ->disableOriginalConstructor()
+            ->setMethods(['getPaginator', 'GetObject'])
+            ->getMock();
+
+        /** @var Ambimax_Import_Helper_Aws $awsHelper */
+        $awsHelper = Mage::helper('ambimax_import/aws');
+        $awsHelper->setClient('default', $client);
+
+        $paginationResult = $this->getMockBuilder('\Aws\ResultPaginator')
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->setMethods(['get'])
+            ->getMock();
+
+        $paginationResult
+            ->expects($this->once())
+            ->method('get')
+            ->with('Contents')
+            ->will($this->returnValue($this->getPaginationResultValue()));
+
+        $client
+            ->expects($this->once())
+            ->method('getPaginator')
+            ->with('ListObjects', ['Bucket' => 'foobar', 'Prefix' => '/.TEST/Bilder'])
+            ->will($this->returnValue([$paginationResult]));
+
+        $client
+            ->expects($this->never())
+            ->method('GetObject');
+
+        /** @var Ambimax_Import_Helper_Aws_S3 $helper */
+        $helper = Mage::helper('ambimax_import/aws_s3');
+
+        $images = $helper->findImagesByNameWithFallbackName(
+            $line = array(),
+            $profile = 'default',
+            $bucket = 'foobar',
+            $prefix = '/.TEST/Bilder',
+            $name,
+            $fallbackName,
+            $force = false,
+            $limit
+        );
+
+        $this->assertEquals(count($expectedItems), count($images));
+        $this->assertEquals($expectedItems, $images);
+    }
+
+    public function getPaginationResultValue()
+    {
+        return [
+            ['Key' => '.TEST/Bilder/2843G.jpg', 'Size' => 310, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/2843.jpg', 'Size' => 120, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/2844.jpg', 'Size' => 123, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/52844.jpg', 'Size' => 141, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/2844/neu.jpg', 'Size' => 45, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/3455G_anything.jpg', 'Size' => 88, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/3455G_2.jpg', 'Size' => 88, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/3455G.jpg', 'Size' => 88, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/3455G_1.jpg', 'Size' => 88, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/3455G_20.jpg', 'Size' => 88, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/3455G_12.jpg', 'Size' => 88, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/3455G-3.jpg', 'Size' => 88, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/aqua.jpg', 'Size' => 88, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/aqua_1.jpg', 'Size' => 88, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/aqua_2.jpg', 'Size' => 88, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/_underline.jpg', 'Size' => 88, 'LastModified' => '2017-05-12'],
+            ['Key' => '.TEST/Bilder/-3443.jpg', 'Size' => 88, 'LastModified' => '2017-05-12'],
+        ];
     }
 
 }

@@ -1,0 +1,8 @@
+---
+
+registry:
+#   singleton:
+#      - ambimax_import/aws_s3
+   helper:
+      - ambimax_import/aws
+      - ambimax_import/aws_s3
