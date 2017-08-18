@@ -22,6 +22,12 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
         }
     }
 
+    /**
+     * Helper to create test file
+     *
+     * @param $filepath
+     * @param string $content
+     */
     public function createTestfile($filepath, $content = '')
     {
         // prepare
