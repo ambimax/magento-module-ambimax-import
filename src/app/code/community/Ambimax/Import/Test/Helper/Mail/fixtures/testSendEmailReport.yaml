@@ -1,0 +1,6 @@
+---
+
+config:
+  default/ambimax_import/email_report/enabled: 1
+  default/ambimax_import/email_report/send_on_error_only: 0
+  default/ambimax_import/email_report/to: 'test@example.com'

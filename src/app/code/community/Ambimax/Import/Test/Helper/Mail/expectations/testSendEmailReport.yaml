@@ -1,0 +1,39 @@
+---
+
+one:
+  addTo:
+    - test@example.com
+  addBcc: []
+  subject: First Import Report
+  result: true
+
+two:
+  addTo:
+    - test@example.com
+  addBcc:
+    - bcc@example.com
+  subject: Import Report
+  result: true
+
+three:
+  addTo:
+    - test@example.com
+  addBcc:
+    - bcc@example.com
+    - bcc2@example.com
+  subject: Import Report
+  result: true
+
+four:
+  addTo:
+    - test@example.com
+  addBcc: []
+  subject: Import Report
+  result: true
+
+five:
+  addTo: []
+  addBcc: []
+  subject: null
+  result: false
+

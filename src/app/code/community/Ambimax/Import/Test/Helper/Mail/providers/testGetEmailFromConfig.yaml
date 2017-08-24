@@ -1,0 +1,14 @@
+---
+
+
+- expectation: empty
+  config: ''
+- expectation: single
+  config: 'test@example.com'
+- expectation: multiple
+  config: |
+    test1@example.com
+      test2@example.com
+    test3@example.com
+- expectation: multiple
+  config: "test1@example.com \n     test2@example.com\r\n      \r     test3@example.com \r\n test1@example.com"

@@ -1,0 +1,54 @@
+---
+
+#config:
+#  stores/1/ambimax_import/email_report/enabled: 1
+#  default/ambimax_import/email_report/send_on_error_only: 0
+#  default/ambimax_import/email_report/to: 'ts@ambimax.de'
+
+-
+  expectation: one
+  to: test@example.com
+  bcc: ''
+  subject: First Import Report
+  getLogHtml: test
+  getInvalidRowsCount: 10
+  sendOnErrorOnly: 0
+
+-
+  expectation: two
+  to: |
+    test@example.com
+    test@example.com
+  bcc: bcc@example.com
+  subject: Import Report
+  getLogHtml: ''
+  getInvalidRowsCount: 10
+  sendOnErrorOnly: 0
+
+-
+  expectation: three
+  to: |
+    test@example.com
+  bcc: |
+    bcc@example.com
+    bcc2@example.com
+  subject: Import Report
+  getLogHtml: ''
+  getInvalidRowsCount: 10
+  sendOnErrorOnly: 0
+-
+  expectation: four
+  to: test@example.com
+  bcc:
+  subject: Import Report
+  getLogHtml: ''
+  getInvalidRowsCount: 10
+  sendOnErrorOnly: 0
+-
+  expectation: five
+  to: test@example.com
+  bcc:
+  subject: Import Report
+  getLogHtml: ''
+  getInvalidRowsCount: 0
+  sendOnErrorOnly: 1

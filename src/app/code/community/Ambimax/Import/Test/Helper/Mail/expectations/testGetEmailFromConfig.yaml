@@ -1,0 +1,10 @@
+empty:
+  result: []
+single:
+  result:
+    - 'test@example.com'
+multiple:
+  result:
+    - 'test1@example.com'
+    - 'test2@example.com'
+    - 'test3@example.com'

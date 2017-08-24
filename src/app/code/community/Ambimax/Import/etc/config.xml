@@ -38,6 +38,11 @@
                 <aws_use_credentials_file>1</aws_use_credentials_file>
                 <aws_default_region>eu-central-1</aws_default_region>
             </general>
+            <email_report>
+                <enabled>0</enabled>
+                <send_on_error_only>1</send_on_error_only>
+                <subject>Import Report</subject>
+            </email_report>
         </ambimax_import>
     </default>
 
