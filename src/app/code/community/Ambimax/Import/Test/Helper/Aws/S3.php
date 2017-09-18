@@ -4,8 +4,6 @@ use Aws\Result;
 
 class Ambimax_Import_Test_Helper_Aws_S3 extends Ambimax_Import_Test_Abstract
 {
-    protected $_testFiles = [];
-
     public function setUp()
     {
         parent::setUp();
@@ -14,38 +12,6 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends Ambimax_Import_Test_Abstract
         foreach ($this->getPaginationResultValue() as $line) {
             $this->createTestfile('{{media_dir}}/import/' . $line['Key'], 'origin');
         }
-    }
-
-    public function tearDown()
-    {
-        $io = new Varien_Io_File();
-        foreach ($this->_testFiles as $file => $content) {
-            $io->rm($file);
-        }
-    }
-
-    /**
-     * Helper to create test file
-     *
-     * @param $filepath
-     * @param string $content
-     * @param null $filemtime
-     */
-    public function createTestfile($filepath, $content = '', $filemtime = null)
-    {
-        // prepare
-        $replace = array(
-            '{{base_dir}}'  => Mage::getBaseDir(),
-            '{{media_dir}}' => Mage::getBaseDir('media'),
-        );
-
-        $file = str_replace(array_keys($replace), $replace, $filepath);
-        $io = new Varien_Io_File();
-        $io->checkAndCreateFolder(dirname($file));  // @codingStandardsIgnoreLine
-        $io->open(array('path' => dirname($file))); // @codingStandardsIgnoreLine
-        $io->filePutContent($file, $content);
-        @touch($file, $filemtime); // @codingStandardsIgnoreLine
-        $this->_testFiles[$file] = $content;
     }
 
     public function testCorrectHelperInstance()
