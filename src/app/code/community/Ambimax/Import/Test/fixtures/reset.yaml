@@ -1,7 +1,8 @@
 ---
 
 registry:
-#   singleton:
+   singleton:
+      - core/session
 #      - ambimax_import/aws_s3
    helper:
       - ambimax_import/aws
