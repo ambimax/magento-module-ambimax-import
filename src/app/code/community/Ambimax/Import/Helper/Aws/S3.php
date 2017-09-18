@@ -133,7 +133,7 @@ class Ambimax_Import_Helper_Aws_S3 extends Ho_Import_Helper_Import
             $fileSize = $fileExists ? filesize($savePath) : 0; // @codingStandardsIgnoreLine
             $fileTime = new DateTime($fileExists ? date('Y-m-d H:i:s', filemtime($savePath)) : '1970-01-01'); // @codingStandardsIgnoreLine
 
-            // is $remoteModified required for comparison
+            // is $remoteModified required for comparison?
             if ( $fileExists && $fileSize && is_null($remoteModified) ) {
                 $result = $client->getObject(array('Bucket' => $bucket, 'Key' => $bucketPath));
                 $remoteModified = isset($result['LastModified']) ? $result['LastModified'] : null;
