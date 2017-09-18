@@ -37,6 +37,8 @@ local file does not exist or is older than the file in the bucket.
     <path field="image_path"/>   
     <force>1</force> <!-- optional: Forces download of file -->
 </image>
+```
+```XML
 <thumbnail helper="ambimax_import/aws_s3::getFile">
     <profile>default</profile>
     <bucket>bucket-name</bucket>

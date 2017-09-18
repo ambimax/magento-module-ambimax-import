@@ -2,40 +2,16 @@
 
 use Aws\Result;
 
-class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
+class Ambimax_Import_Test_Helper_Aws_S3 extends Ambimax_Import_Test_Abstract
 {
-    protected $_testFiles = [];
-
     public function setUp()
     {
+        parent::setUp();
+
         // Create files - otherwise these files are not returned from getImagesByName*
         foreach ($this->getPaginationResultValue() as $line) {
             $this->createTestfile('{{media_dir}}/import/' . $line['Key'], 'origin');
         }
-    }
-
-    public function tearDown()
-    {
-        $io = new Varien_Io_File();
-        foreach ($this->_testFiles as $file => $content) {
-            $io->rm($file);
-        }
-    }
-
-    public function createTestfile($filepath, $content = '')
-    {
-        // prepare
-        $replace = array(
-            '{{base_dir}}'  => Mage::getBaseDir(),
-            '{{media_dir}}' => Mage::getBaseDir('media'),
-        );
-
-        $file = str_replace(array_keys($replace), $replace, $filepath);
-        $io = new Varien_Io_File();
-        $io->checkAndCreateFolder(dirname($file));  // @codingStandardsIgnoreLine
-        $io->open(array('path' => dirname($file))); // @codingStandardsIgnoreLine
-        $io->filePutContent($file, $content);
-        $this->_testFiles[$file] = $content;
     }
 
     public function testCorrectHelperInstance()
@@ -89,7 +65,7 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
     public function testGetNewerFileAndOverwriteExistingFile()
     {
         $localFilename = Mage::getBaseDir('media') . '/import/Subfolder/testGetExistingFile.test.csv';
-        $this->createTestfile($localFilename, 'origin');
+        $this->createTestfile($localFilename, 'origin', now()-86400);
 
         $this->assertFileExists($localFilename);
         $this->assertStringEqualsFile($localFilename, 'origin');
@@ -113,7 +89,6 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
             'Key'    => 'Subfolder/testGetExistingFile.test.csv',
             'SaveAs' => $localFilename
         );
-
 
         $client
             ->expects($this->exactly(2))
