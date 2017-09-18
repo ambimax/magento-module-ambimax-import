@@ -2,7 +2,7 @@
 
 use Aws\Result;
 
-class Ambimax_Import_Test_Helper_Aws extends EcomDev_PHPUnit_Test_Case
+class Ambimax_Import_Test_Helper_Aws extends Ambimax_Import_Test_Abstract
 {
     /**
      * @dataProvider clientProvider
