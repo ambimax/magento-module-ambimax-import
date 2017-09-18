@@ -2,12 +2,14 @@
 
 use Aws\Result;
 
-class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
+class Ambimax_Import_Test_Helper_Aws_S3 extends Ambimax_Import_Test_Abstract
 {
     protected $_testFiles = [];
 
     public function setUp()
     {
+        parent::setUp();
+
         // Create files - otherwise these files are not returned from getImagesByName*
         foreach ($this->getPaginationResultValue() as $line) {
             $this->createTestfile('{{media_dir}}/import/' . $line['Key'], 'origin');
@@ -27,8 +29,9 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
      *
      * @param $filepath
      * @param string $content
+     * @param null $filemtime
      */
-    public function createTestfile($filepath, $content = '')
+    public function createTestfile($filepath, $content = '', $filemtime = null)
     {
         // prepare
         $replace = array(
@@ -41,6 +44,7 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
         $io->checkAndCreateFolder(dirname($file));  // @codingStandardsIgnoreLine
         $io->open(array('path' => dirname($file))); // @codingStandardsIgnoreLine
         $io->filePutContent($file, $content);
+        @touch($file, $filemtime); // @codingStandardsIgnoreLine
         $this->_testFiles[$file] = $content;
     }
 
@@ -95,7 +99,7 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
     public function testGetNewerFileAndOverwriteExistingFile()
     {
         $localFilename = Mage::getBaseDir('media') . '/import/Subfolder/testGetExistingFile.test.csv';
-        $this->createTestfile($localFilename, 'origin');
+        $this->createTestfile($localFilename, 'origin', now()-86400);
 
         $this->assertFileExists($localFilename);
         $this->assertStringEqualsFile($localFilename, 'origin');
@@ -119,7 +123,6 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
             'Key'    => 'Subfolder/testGetExistingFile.test.csv',
             'SaveAs' => $localFilename
         );
-
 
         $client
             ->expects($this->exactly(2))
