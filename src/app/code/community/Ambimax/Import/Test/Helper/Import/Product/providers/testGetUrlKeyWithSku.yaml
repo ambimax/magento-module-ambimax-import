@@ -1,0 +1,22 @@
+
+-
+  data:
+    line: []
+    sku: sku123
+    name: T-Shirt
+    color: blue
+  expected: t-shirt-blue-sku123-6
+
+-
+  data:
+    line: []
+    sku: bb120
+    name: Baseball
+  expected: baseball-bb120-5
+
+-
+  data:
+    line: []
+    sku: this-is-a-very-long-sku
+    name: Item with a hell of a name and some extended information
+  expected: item-with-a-hell-of-a-name-and-some-extended-information-this-is-a-very-long-sku-23
