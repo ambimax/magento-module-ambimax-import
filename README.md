@@ -97,6 +97,18 @@ Default RegExp is the same as `findImagesByName` function
 </_media_image>
 ```
 
+#### getUrlKeyWithSku
+
+This helper adds sku to product url. This can be used with [ambimax® ProductNotFoundHandler](https://github.com/ambimax/magento-module-ambimax-productnotfoundhandler)
+
+```XML
+<url_key helper="ambimax_import/import_product::getUrlKeyWithSku"> 
+    <ident use="sku"/> 
+    <name use="name"/> 
+    <!-- additional fields --> 
+    <ean field="ean"/> 
+</url_key>
+```
 
 ## Author Information
 
