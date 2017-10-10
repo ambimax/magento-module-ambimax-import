@@ -110,6 +110,10 @@ This helper adds sku to product url. This can be used with [ambimax® ProductNot
 </url_key>
 ```
 
+## License
+
+[MIT License](http://choosealicense.com/licenses/mit/)
+
 ## Author Information
 
  - Tobias Schifftner, [ambimax® GmbH](https://www.ambimax.de)
