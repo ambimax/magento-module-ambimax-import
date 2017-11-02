@@ -11,6 +11,11 @@
     "ajbonner/magento-composer-autoload": "0.1.*",
     "ho-nl/ho_import": "dev-master#5437a217aba9361c0dd7ff10c97f379f4056e8a6"
   },
+  "require-dev": {
+    "aoepeople/composer-installers": "*",
+    "ecomdev/ecomdev_phpunit": "dev-dev",
+    "ambimax/coding-standards": "v1.*"
+  },
   "repositories": [
     {
       "type": "composer",
