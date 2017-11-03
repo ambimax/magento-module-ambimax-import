@@ -1,9 +1,9 @@
 
 # ambimax® Import
 
-Extends functionality of [Ho_Import](https://github.com/ho-nl/magento1-Ho_Import)
+[![Build Status](https://travis-ci.org/ambimax/magento-module-ambimax-import.svg?branch=master)](https://travis-ci.org/ambimax/magento-module-ambimax-import)
 
-**// This project is under heavy development and not production ready! //**
+Extends functionality of [Ho_Import](https://github.com/ho-nl/magento1-Ho_Import)
 
 ## Additional Downloaders
 
