@@ -1,4 +1,4 @@
 ---
 
 config:
-  default/ambimax_import/general/aws_default_region: sa-east-1 # Set price scope to website
+  default/ambimax_import/general/aws_default_region: 'sa-east-1'
