@@ -5,6 +5,15 @@ use Aws\Result;
 class Ambimax_Import_Test_Model_Downloader_S3 extends EcomDev_PHPUnit_Test_Case
 {
     /**
+     * setup
+     */
+    public function setUp()
+    {
+        $io = new Varien_Io_File();
+        $io->checkAndCreateFolder(Mage::getBaseDir('var').DS.'import');
+    }
+
+    /**
      * @dataProvider dataProvider
      */
     public function testDownload($provider)
