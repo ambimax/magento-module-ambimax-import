@@ -6,14 +6,23 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
 {
     protected $_testFiles = [];
 
+    /**
+     * setup
+     */
     public function setUp()
     {
+        $io = new Varien_Io_File();
+        $io->checkAndCreateFolder(Mage::getBaseDir('var').DS.'import');
+
         // Create files - otherwise these files are not returned from getImagesByName*
         foreach ($this->getPaginationResultValue() as $line) {
             $this->createTestfile('{{media_dir}}/import/' . $line['Key'], 'origin');
         }
     }
 
+    /**
+     * tear down
+     */
     public function tearDown()
     {
         $io = new Varien_Io_File();
@@ -22,6 +31,12 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
         }
     }
 
+    /**
+     * Create test file
+     *
+     * @param $filepath
+     * @param string $content
+     */
     public function createTestfile($filepath, $content = '')
     {
         // prepare
@@ -38,6 +53,9 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
         $this->_testFiles[$file] = $content;
     }
 
+    /**
+     * Test helper instance
+     */
     public function testCorrectHelperInstance()
     {
         /** @var Ambimax_Import_Helper_Aws_S3 $helper */
@@ -90,6 +108,7 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
     {
         $localFilename = Mage::getBaseDir('media') . '/import/Subfolder/testGetExistingFile.test.csv';
         $this->createTestfile($localFilename, 'origin');
+        touch($localFilename, time()-3); // @codingStandardsIgnoreLine
 
         $this->assertFileExists($localFilename);
         $this->assertStringEqualsFile($localFilename, 'origin');
@@ -113,7 +132,6 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
             'Key'    => 'Subfolder/testGetExistingFile.test.csv',
             'SaveAs' => $localFilename
         );
-
 
         $client
             ->expects($this->exactly(2))
@@ -385,6 +403,9 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
         $this->assertEquals($expectedItems, $images);
     }
 
+    /**
+     * @return array
+     */
     public function getPaginationResultValue()
     {
         return [
