@@ -13,7 +13,7 @@ class Ambimax_Import_Helper_Aws_S3 extends Ho_Import_Helper_Import
      * @param bool $force
      * @return string
      */
-    public function getFile($line, $profile, $bucket, $basePath, $path, $force = false)
+    public function getFile($line, $profile, $bucket, $basePath, $path, $force = false) // @codingStandardsIgnoreLine
     {
         $basePath = $this->_getMapper()->mapItem($basePath) ? $this->_getMapper()->mapItem($basePath) : $basePath;
         $path = $this->_getMapper()->mapItem($path) ? $this->_getMapper()->mapItem($path) : $path;
@@ -73,7 +73,7 @@ class Ambimax_Import_Helper_Aws_S3 extends Ho_Import_Helper_Import
             $pattern = '/\/(__NAME__)(\.(jpg|jpeg|png)$|[\_].*\.(jpg|jpeg|png)$)/i';
         }
 
-        $pattern = str_replace('__NAME__', (string) $name, $pattern);
+        $pattern = str_replace('__NAME__', (string)$name, $pattern);
 
         $ls = $this->getDirectoryListing($bucket, $profile, $prefix);
 
@@ -91,7 +91,7 @@ class Ambimax_Import_Helper_Aws_S3 extends Ho_Import_Helper_Import
         $images = array();
         foreach ($matches as $bucketPath) {
             $info = $ls[$bucketPath];
-            $savePath = Mage::getBaseDir('media').DS.'import'.DS.$bucketPath;
+            $savePath = Mage::getBaseDir('media') . DS . 'import' . DS . $bucketPath;
 
             $this->downloadFile(
                 $profile,
@@ -106,7 +106,7 @@ class Ambimax_Import_Helper_Aws_S3 extends Ho_Import_Helper_Import
                 continue;
             }
 
-            $images[] = DS.$bucketPath;
+            $images[] = DS . $bucketPath;
 
             if ( $limit && ++$i >= (int)$limit ) {
                 break;
@@ -133,7 +133,7 @@ class Ambimax_Import_Helper_Aws_S3 extends Ho_Import_Helper_Import
             $fileSize = $fileExists ? filesize($savePath) : 0; // @codingStandardsIgnoreLine
             $fileTime = new DateTime($fileExists ? date('Y-m-d H:i:s', filemtime($savePath)) : '1970-01-01'); // @codingStandardsIgnoreLine
 
-            // is $remoteModified required for comparison
+            // is $remoteModified required for comparison?
             if ( $fileExists && $fileSize && is_null($remoteModified) ) {
                 $result = $client->getObject(array('Bucket' => $bucket, 'Key' => $bucketPath));
                 $remoteModified = isset($result['LastModified']) ? $result['LastModified'] : null;

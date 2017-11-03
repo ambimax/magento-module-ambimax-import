@@ -2,7 +2,7 @@
 
 use Aws\Result;
 
-class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
+class Ambimax_Import_Test_Helper_Aws_S3 extends Ambimax_Import_Test_Abstract
 {
     protected $_testFiles = [];
 
@@ -11,6 +11,7 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
      */
     public function setUp()
     {
+        parent::setUp();
         $io = new Varien_Io_File();
         $io->checkAndCreateFolder(Mage::getBaseDir('var').DS.'import');
 
@@ -107,8 +108,7 @@ class Ambimax_Import_Test_Helper_Aws_S3 extends EcomDev_PHPUnit_Test_Case
     public function testGetNewerFileAndOverwriteExistingFile()
     {
         $localFilename = Mage::getBaseDir('media') . '/import/Subfolder/testGetExistingFile.test.csv';
-        $this->createTestfile($localFilename, 'origin');
-        touch($localFilename, time()-3); // @codingStandardsIgnoreLine
+        $this->createTestfile($localFilename, 'origin', now()-86400);
 
         $this->assertFileExists($localFilename);
         $this->assertStringEqualsFile($localFilename, 'origin');

@@ -1,9 +1,9 @@
 
 # ambimax® Import
 
-Extends functionality of [Ho_Import](https://github.com/ho-nl/magento1-Ho_Import)
+[![Build Status](https://travis-ci.org/ambimax/magento-module-ambimax-import.svg?branch=master)](https://travis-ci.org/ambimax/magento-module-ambimax-import)
 
-**// This project is under heavy development and not production ready! //**
+Extends functionality of [Ho_Import](https://github.com/ho-nl/magento1-Ho_Import)
 
 ## Additional Downloaders
 
@@ -37,6 +37,8 @@ local file does not exist or is older than the file in the bucket.
     <path field="image_path"/>   
     <force>1</force> <!-- optional: Forces download of file -->
 </image>
+```
+```XML
 <thumbnail helper="ambimax_import/aws_s3::getFile">
     <profile>default</profile>
     <bucket>bucket-name</bucket>
@@ -95,6 +97,22 @@ Default RegExp is the same as `findImagesByName` function
 </_media_image>
 ```
 
+#### getUrlKeyWithSku
+
+This helper adds sku to product url. This can be used with [ambimax® ProductNotFoundHandler](https://github.com/ambimax/magento-module-ambimax-productnotfoundhandler)
+
+```XML
+<url_key helper="ambimax_import/import_product::getUrlKeyWithSku"> 
+    <ident use="sku"/> 
+    <name use="name"/> 
+    <!-- additional fields --> 
+    <ean field="ean"/> 
+</url_key>
+```
+
+## License
+
+[MIT License](http://choosealicense.com/licenses/mit/)
 
 ## Author Information
 

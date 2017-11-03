@@ -9,7 +9,7 @@
     "magento-hackathon/magento-composer-installer": "3.*",
     "aws/aws-sdk-php": "3.*",
     "ajbonner/magento-composer-autoload": "0.1.*",
-    "ho-nl/ho_import": "dev-master#5437a217aba9361c0dd7ff10c97f379f4056e8a6"
+    "ho-nl/ho_import": "1.7.*"
   },
   "require-dev": {
     "ecomdev/ecomdev_phpunit": "dev-dev",

@@ -2,7 +2,7 @@
 
 use Aws\Result;
 
-class Ambimax_Import_Test_Model_Downloader_S3 extends EcomDev_PHPUnit_Test_Case
+class Ambimax_Import_Test_Model_Downloader_S3 extends Ambimax_Import_Test_Abstract
 {
     /**
      * setup

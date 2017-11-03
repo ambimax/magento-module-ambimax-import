@@ -2,7 +2,7 @@
 
 use Aws\Result;
 
-class Ambimax_Import_Test_Helper_Aws extends EcomDev_PHPUnit_Test_Case
+class Ambimax_Import_Test_Helper_Aws extends Ambimax_Import_Test_Abstract
 {
     /**
      * @dataProvider clientProvider
@@ -33,14 +33,13 @@ class Ambimax_Import_Test_Helper_Aws extends EcomDev_PHPUnit_Test_Case
      */
     public function testDefaultRegion()
     {
-        $this->assertEquals('sa-east-1', Mage::getStoreConfig('ambimax_import/general/aws_default_region'));
-
         /** @var Ambimax_Import_Helper_Aws $helper */
         $helper = Mage::helper('ambimax_import/aws');
 
         $client = $helper->getClient('default');
         $this->assertInstanceOf('Aws\S3\S3Client', $client);
         $this->assertEquals('sa-east-1', $client->getRegion());
+        $this->assertEquals('sa-east-1', Mage::getStoreConfig('ambimax_import/general/aws_default_region'));
         $this->assertEquals('sa-east-1', $helper->getDefaultRegion());
     }
 
