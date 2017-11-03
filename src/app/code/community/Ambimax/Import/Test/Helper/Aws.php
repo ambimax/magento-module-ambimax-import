@@ -40,7 +40,7 @@ class Ambimax_Import_Test_Helper_Aws extends EcomDev_PHPUnit_Test_Case
 
         $client = $helper->getClient('default');
         $this->assertInstanceOf('Aws\S3\S3Client', $client);
-        $this->assertNull($client->getRegion());
+        $this->assertEquals('sa-east-1', $client->getRegion());
         $this->assertEquals('sa-east-1', $helper->getDefaultRegion());
     }
 
