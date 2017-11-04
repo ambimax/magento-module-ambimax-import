@@ -3,13 +3,19 @@
   "type": "magento-module",
   "description": "Module to extend ho_import module for Magento 1",
   "homepage": "https://www.ambimax.de",
-  "license": ["MIT"],
+  "license": [
+    "MIT"
+  ],
   "require": {
     "php": ">=5.6",
     "magento-hackathon/magento-composer-installer": "3.*",
     "aws/aws-sdk-php": "3.*",
     "ajbonner/magento-composer-autoload": "0.1.*",
     "ho-nl/ho_import": "1.7.*"
+  },
+  "require-dev": {
+    "ecomdev/ecomdev_phpunit": "dev-dev",
+    "ambimax/coding-standards": "v1.*"
   },
   "repositories": [
     {
