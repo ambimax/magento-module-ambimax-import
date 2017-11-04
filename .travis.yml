@@ -41,9 +41,11 @@ after_failure:
   - ls -lah /tmp/mageteststand.*/.modman/
   - ls -lah /tmp/mageteststand.*/.modman/magento-module-ambimax-import/
   - ls -lah /tmp/mageteststand.*/htdocs/
+  - ls -lah /tmp/mageteststand.*/tools/
   - ls -lah /tmp/mageteststand.*/vendor/
   - ls -lah /tmp/mageteststand.*/bin/
   - (cd /tmp/mageteststand.*/ && bin/phpunit --version)
+  - echo ${BUILDENV}
 
 notifications:
   slack: ambimax:2MlPTX9bY9aPxCPhJGxHKIT6
