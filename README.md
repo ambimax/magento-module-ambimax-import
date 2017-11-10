@@ -110,6 +110,15 @@ This helper adds sku to product url. This can be used with [ambimax® ProductNot
 </url_key>
 ```
 
+## Supported Magento Versions
+
+ - Magento CE 1.9.2.4 and newer
+
+## Supported PHP Versions
+
+ - php 5.6
+ - php 7.0
+
 ## License
 
 [MIT License](http://choosealicense.com/licenses/mit/)
