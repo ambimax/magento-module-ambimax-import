@@ -4,54 +4,13 @@ use Aws\Result;
 
 class Ambimax_Import_Test_Helper_Aws_S3 extends Ambimax_Import_Test_Abstract
 {
-    protected $_testFiles = [];
-
-    /**
-     * setup
-     */
     public function setUp()
     {
         parent::setUp();
-        $io = new Varien_Io_File();
-        $io->checkAndCreateFolder(Mage::getBaseDir('var').DS.'import');
-
         // Create files - otherwise these files are not returned from getImagesByName*
         foreach ($this->getPaginationResultValue() as $line) {
             $this->createTestfile('{{media_dir}}/import/' . $line['Key'], 'origin');
         }
-    }
-
-    /**
-     * tear down
-     */
-    public function tearDown()
-    {
-        $io = new Varien_Io_File();
-        foreach ($this->_testFiles as $file => $content) {
-            $io->rm($file);
-        }
-    }
-
-    /**
-     * Create test file
-     *
-     * @param $filepath
-     * @param string $content
-     */
-    public function createTestfile($filepath, $content = '')
-    {
-        // prepare
-        $replace = array(
-            '{{base_dir}}'  => Mage::getBaseDir(),
-            '{{media_dir}}' => Mage::getBaseDir('media'),
-        );
-
-        $file = str_replace(array_keys($replace), $replace, $filepath);
-        $io = new Varien_Io_File();
-        $io->checkAndCreateFolder(dirname($file));  // @codingStandardsIgnoreLine
-        $io->open(array('path' => dirname($file))); // @codingStandardsIgnoreLine
-        $io->filePutContent($file, $content);
-        $this->_testFiles[$file] = $content;
     }
 
     /**
