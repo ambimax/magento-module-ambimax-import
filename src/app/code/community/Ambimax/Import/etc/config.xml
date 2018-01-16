@@ -37,6 +37,7 @@
             <general>
                 <aws_use_credentials_file>1</aws_use_credentials_file>
                 <aws_default_region>eu-central-1</aws_default_region>
+                <use_cdn>0</use_cdn>
             </general>
         </ambimax_import>
     </default>

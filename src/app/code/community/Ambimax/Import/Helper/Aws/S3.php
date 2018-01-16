@@ -31,6 +31,10 @@ class Ambimax_Import_Helper_Aws_S3 extends Ho_Import_Helper_Import
         $localPath = DS . trim($basePath, '/') . DS . str_replace('/', '_', ltrim($path, '/'));
         $savePath = Mage::getBaseDir('media') . DS . 'import' . $localPath;
 
+        if ( $this->useCdn() ) {
+            return $bucketPath;
+        }
+
         $this->downloadFile(
             $profile,
             $bucket,
@@ -85,6 +89,12 @@ class Ambimax_Import_Helper_Aws_S3 extends Ho_Import_Helper_Import
 
         if ( count($matches) > 1 ) {
             sort($matches, SORT_NATURAL);
+        }
+
+        if ( $this->useCdn() ) {
+            return $limit
+                ? array_slice($matches, 0, (int)$limit, true)
+                : $matches;
         }
 
         $i = 0;
@@ -242,6 +252,14 @@ class Ambimax_Import_Helper_Aws_S3 extends Ho_Import_Helper_Import
     public function getHelper()
     {
         return Mage::helper('ambimax_import');
+    }
+
+    /**
+     * @return bool
+     */
+    public function useCdn()
+    {
+        return Mage::getStoreConfigFlag('ambimax_import/general/use_cdn');
     }
 
 }
